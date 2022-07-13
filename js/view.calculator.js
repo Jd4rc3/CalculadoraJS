@@ -1,115 +1,64 @@
-import {fnPercentKey} from './percent-key.controller.js';
+import {keyPressed, } from './keys-controller.js';
 
 export const calculatorView = () => {
-    // Selección del contenedor principal
+    //Container principal
     const container = document.querySelector("#container");
-
-    // Contenedor de la calculadora
     const calculatorContainer = document.createElement("div");
     calculatorContainer.classList.add("calculator-container");
-    // <div class="calculator-container"></div>
 
-    // Display de la calculadora
+    //Display component
     const display = document.createElement("input");
     display.type = "text";
     display.id = "display";
     display.value = "0";
     display.readOnly = true;
-    // <input type="text" id="display" value="0" readonly>
 
-    // Contenedor del display
+    //Display wrapper
     const calculatorDisplay = document.createElement("div");
     calculatorDisplay.classList.add("calculator-display");
-    // <div class="calculator-display"></div>
-
     calculatorDisplay.append(display);
-    // < class="calculator-display">
-    //     <input type="text" id="display" value="0" readonly>
-    // </div>
 
-    // Key clear
-    const keyClear = document.createElement("button");
-    keyClear.classList.add("calculator-key", "key-clear");
-    keyClear.id = "clear";
-    keyClear.textContent = "AC";
-    // <button class="calculator-key key-clear" id="clear">AC</button>
 
-    // Key sign
-    const keySign = document.createElement("button");
-    keySign.classList.add("calculator-key", "key-sign");
-    keySign.id = "changeSign";
-    keySign.textContent = "+/-";
-    // <button class="calculator-key key-sign" id="changeSign">+/-</button>
+    function createCalculatorKey(key) {
+        const calculatorKey = document.createElement("button");
+        calculatorKey.classList.add("calculator-key");
+        calculatorKey.id = key;
+        calculatorKey.innerHTML = key;
+        calculatorKey.addEventListener("click", keyPressed);
 
-    // Key percent
-    const keyPercent = document.createElement("button");
-    keyPercent.classList.add("calculator-key", "key-percent");
-    keyPercent.id = "percent";
-    keyPercent.textContent = "%";
-    keyPercent.addEventListener("click", fnPercentKey);
-    // keyPercent.onclick = fnPercentKey;
-    // <button class="calculator-key key-percent" id="percent">%</button>
+        return calculatorKey;
+    }
 
-    // Key delete
-    const keyDelete = document.createElement("button");
-    keyDelete.classList.add("calculator-key", "key-delete");
-    keyDelete.id = "delete";
-    keyDelete.innerHTML = "&#8592;"; // keyPercent.textContent = "&#8592;";
-    // <button class="calculator-key key-delete" id="delete">←</button>
+    function columnCreator(keys) {
+        let calculatorKeysColumn = document.createElement("div");
+        calculatorKeysColumn.classList.add("calculator-keys-column");
+        keys.forEach(key => {
+            calculatorKeysColumn.append(key)
+        })
 
-    // Key row
-    let calculatorKeysRow = document.createElement("div");
-    calculatorKeysRow.classList.add("calculator-keys-row");
-    calculatorKeysRow.append(keyClear, keySign, keyPercent, keyDelete);
-    // <div class="calculator-keys-row">
-    //     <button class="calculator-key key-clear" id="clear">AC</button>
-    //     <button class="calculator-key key-sign" id="changeSign">+/-</button>
-    //     <button class="calculator-key key-percent" id="percent">%</button>
-    //     <button class="calculator-key key-delete" id="delete">&#8592;</button>
-    // </div>
+        return calculatorKeysColumn;
+    }
 
+    //Keys section
+    const functionKeys = ["AC", "+/-", "%", "&#8592"].map(key => createCalculatorKey(key));
+    const firstColumn = [7, 4, 1, 0].map(key => createCalculatorKey(key));
+    const secondColumn = [8, 5, 2, '.'].map(key => createCalculatorKey(key));
+    const thirdColumn = [9, 6, 3, '='].map(key => createCalculatorKey(key));
+    const operatorsColumn = ["+", '-', "*", '/'].map(key => createCalculatorKey(key));
+
+    // Column of keys
+    const functionKeysColumn = columnCreator(functionKeys);
+    const firstKeysColumn = columnCreator(firstColumn);
+    const secondKeysColumn = columnCreator(secondColumn);
+    const thirdKeysColumn = columnCreator(thirdColumn);
+    const operatorsKeysColumn = columnCreator(operatorsColumn);
+
+    //Keys wrapper
     const calculatorKeys = document.createElement("div");
     calculatorKeys.classList.add("calculator-keys");
-    calculatorKeys.append(calculatorKeysRow);
+    calculatorKeys.append(functionKeysColumn, firstKeysColumn, secondKeysColumn, thirdKeysColumn, operatorsKeysColumn);
 
+    //Add display and key's wrapper to calculator container and append to container
     calculatorContainer.append(calculatorDisplay, calculatorKeys);
     container.append(calculatorContainer);
-
-        container.innerHTML = `<div class="calculator-container">
-        <div class="calculator-display">
-            <input type="text" id="display" value="0" readonly>
-        </div>
-        <div class="calculator-keys">
-            <div class="calculator-keys-row">
-                <button class="calculator-key key-clear" id="clear">AC</button>
-                <button class="calculator-key key-sign" id="changeSign">+/-</button>
-                <button class="calculator-key key-percent" id="percent">%</button>
-                <button class="calculator-key key-delete" id="delete">&#8592;</button>
-            </div>
-            <div class="calculator-keys-row">
-                <button class="calculator-key key-seven" id="seven">7</button>
-                <button class="calculator-key key-four" id="four">4</button>
-                <button class="calculator-key key-nine" id="one">1</button>
-                <button class="calculator-key key-zero" id="zero">0</button>
-            </div>
-            <div class="calculator-keys-row">
-                <button class="calculator-key key-eight" id="eight">8</button>
-                <button class="calculator-key key-five" id="five">5</button>
-                <button class="calculator-key key-two" id="two">2</button>
-                <button class="calculator-key key-decimal" id="decimal">.</button>
-            </div>
-            <div class="calculator-keys-row">
-                <button class="calculator-key key-nine" id="nine">9</button>
-                <button class="calculator-key key-six" id="six">6</button>
-                <button class="calculator-key key-three" id="three">3</button>
-                <button class="calculator-key key-equals" id="equals">=</button>
-            </div>
-            <div class="calculator-keys-row">
-                <button class="calculator-key key-add" id="add">+</button>
-                <button class="calculator-key key-subtract" id="subtract">&minus;</button>
-                <button class="calculator-key key-multiply" id="multiply">&times;</button>
-                <button class="calculator-key key-divide" id="divide">&divide;</button>
-            </div>
-        </div>
-    </div>`;
 };
