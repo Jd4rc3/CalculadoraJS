@@ -1,5 +1,5 @@
 export const keyPressed = (event) => {
-    const pressedKey = event.target.innerHTML;
+    const pressedKey = event.target.innerHTML;    
     handleValidations(pressedKey);
 };
 

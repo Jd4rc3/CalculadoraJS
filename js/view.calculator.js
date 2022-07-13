@@ -37,8 +37,8 @@ export const calculatorView = () => {
         })
 
         return calculatorKeysColumn;
-    }
-
+    }    
+    
     //Keys section
     const functionKeys = ["AC", "+/-", "%", "&#8592"].map(key => createCalculatorKey(key));
     const firstColumn = [7, 4, 1, 0].map(key => createCalculatorKey(key));
